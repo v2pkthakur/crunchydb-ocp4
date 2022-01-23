@@ -50,3 +50,7 @@ secret/pgo-s3-creds created
 postgrescluster.postgres-operator.crunchydata.com/standby-pg created
 ```
 
+# Promoting Standby Cluster to be the Primary
+```
+oc patch --type merge postgrescluster standby-pg -p '{"spec":{"standby":{"enabled":false}}}'
+```
