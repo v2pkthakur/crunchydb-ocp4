@@ -3,7 +3,7 @@ Repo for hosting CrunchyDB on OCP4.
 
 
 # Login / Switch to Primary Openshift Cluster
-oc config use-context aws-1
+oc config use-context aws-0
 
 # Installing Crunchydata Operator
 oc apply -k install-operator/
