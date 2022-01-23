@@ -1,0 +1,31 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: standby-pg
+spec:
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.5-0
+  postgresVersion: 13
+  instances:
+    - dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 10Gi
+  standby:
+    enabled: true
+    repoName: repo1
+  backups:
+    pgbackrest:
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.36-0
+      configuration:
+      - secret:
+          name: pgo-s3-creds
+      global:
+        repo1-path: /pgbackrest/postgres-operator/hippo-s3/repo1
+      repos:
+      - name: repo1
+        s3:
+          bucket: "cba-ibm-postgres"
+          endpoint: "s3.ap-southeast-2.amazonaws.com"
+          region: "ap-southeast-2"
